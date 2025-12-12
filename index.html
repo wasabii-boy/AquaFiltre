@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AquaFiltre – Sélection d'eaux en bouteille</title>
+    <link rel="stylesheet" href="assets/style.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <main>
+      <header>
+        <div>
+          <p class="eyebrow">Filtrage scientifique – repères ANSES</p>
+          <h1>AquaFiltre</h1>
+          <p class="subtitle">
+            Pré-sélection d'eaux en bouteille vendues en France à partir de critères de
+            pureté (faible résidu sec, nitrates et sodium). Les profils pré-réglés suivent
+            les repères de l'ANSES pour les nourrissons et publics sensibles.
+          </p>
+        </div>
+        <div class="badges">
+          <span class="badge">Données publiques ANSES</span>
+          <span class="badge ghost">Statique • exportable</span>
+        </div>
+      </header>
+
+      <section class="card hero">
+        <div>
+          <h2 class="section-title">Profils rapides</h2>
+          <p class="muted">
+            Les seuils ANSES sont appliqués au profil "Nourrisson" (résidu &lt; 50 mg/L,
+            nitrates cible 10 mg/L, sodium &lt; 15 mg/L). Sélectionnez ou ajustez finement.
+          </p>
+          <div class="chips" id="profiles"></div>
+        </div>
+        <div class="stats">
+          <div class="stat">
+            <div class="label">Eaux listées</div>
+            <div class="value" id="stat-total">–</div>
+          </div>
+          <div class="stat">
+            <div class="label">Compatibles avec les seuils</div>
+            <div class="value" id="stat-matching">–</div>
+          </div>
+          <div class="stat">
+            <div class="label">Score moyen du top 3</div>
+            <div class="value" id="stat-top3">–</div>
+          </div>
+        </div>
+      </section>
+
+      <div class="layout">
+        <section class="card" aria-labelledby="filters-title">
+          <div class="card-header">
+            <div>
+              <p class="eyebrow">Réglages scientifiques</p>
+              <h2 class="section-title" id="filters-title">Seuils et pondérations</h2>
+            </div>
+            <span class="pill">45% résidu • 35% nitrates • 20% sodium</span>
+          </div>
+
+          <div class="field-group">
+            <label for="residue">Résidu sec max (mg/L) – viser &lt; 50 mg/L pour nourrissons</label>
+            <input id="residue" type="range" min="5" max="800" step="5" />
+            <div class="range-row">
+              <span class="muted">très faible &lt; 50</span>
+              <strong id="residue-label"></strong>
+              <span class="muted">riche &gt; 500</span>
+            </div>
+          </div>
+
+          <div class="field-group">
+            <label for="nitrates">Nitrates max (mg/L) – seuil potabilité 50 mg/L, cible 10 mg/L pour biberons</label>
+            <input id="nitrates" type="range" min="1" max="50" step="1" />
+            <div class="range-row">
+              <span class="muted">cible 10</span>
+              <strong id="nitrates-label"></strong>
+              <span class="muted">limite 50</span>
+            </div>
+          </div>
+
+          <div class="field-group">
+            <label for="sodium">Sodium max (mg/L) – repère ANSES nourrissons: 15 mg/L</label>
+            <input id="sodium" type="range" min="1" max="200" step="1" />
+            <div class="range-row">
+              <span class="muted">idéal &lt; 15</span>
+              <strong id="sodium-label"></strong>
+              <span class="muted">limite 200</span>
+            </div>
+          </div>
+
+          <p class="notice">
+            Le score de pureté attribue davantage de poids au résidu sec (45%), puis aux nitrates (35%)
+            et au sodium (20%). Une eau qui dépasse un seuil voit son score chuter à 0 pour ce paramètre.
+          </p>
+        </section>
+
+        <section class="card" aria-labelledby="table-title">
+          <div class="card-header">
+            <div>
+              <p class="eyebrow">Classement des eaux</p>
+              <h2 class="section-title" id="table-title">Options ordonnées par score</h2>
+            </div>
+            <div class="legend">
+              <span class="dot ok"></span> sous le seuil
+              <span class="dot warn"></span> au-dessus du seuil
+            </div>
+          </div>
+
+          <div class="table-wrapper">
+            <table class="table" aria-label="Classement des eaux en bouteille">
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Marque</th>
+                  <th>Résidu sec</th>
+                  <th>Nitrates</th>
+                  <th>Sodium</th>
+                  <th>Score pureté</th>
+                  <th>Source</th>
+                </tr>
+              </thead>
+              <tbody id="water-table-body"></tbody>
+            </table>
+          </div>
+        </section>
+      </div>
+
+      <section class="card sources">
+        <div class="card-header">
+          <div>
+            <p class="eyebrow">Repères ANSES & méthodologie</p>
+            <h2 class="section-title">Comment interpréter les résultats</h2>
+          </div>
+          <a class="text-link" href="https://www.anses.fr" target="_blank" rel="noreferrer">Site ANSES</a>
+        </div>
+        <ul>
+          <li>
+            <strong>Nitrates :</strong> limite de qualité pour l'eau potable 50 mg/L ; l'ANSES
+            recommande &lt; 10 mg/L pour la préparation des biberons (avis 2013 et note d'appui 2021).
+          </li>
+          <li>
+            <strong>Sodium :</strong> repère &lt; 15 mg/L pour nourrissons (avis 2008 sur l'alimentation
+            infantile), afin de limiter la charge rénale.
+          </li>
+          <li>
+            <strong>Résidu sec à 180 °C :</strong> les eaux très faiblement minéralisées sont sous
+            50 mg/L. Les régimes pauvres en minéraux peuvent viser ces valeurs.
+          </li>
+          <li>
+            <strong>Données :</strong> composition issue du fichier public des eaux minérales naturelles
+            déclaré à l'ANSES (mise à jour 2022). Vérifiez toujours l'étiquette la plus récente.
+          </li>
+        </ul>
+        <div class="notice">
+          AquaFiltre n'est pas un outil médical. Pour les nourrissons, se référer également aux conseils du
+          pédiatre et à la réglementation locale. Les valeurs sont indicatives et doivent être confirmées sur
+          les bouteilles achetées.
+        </div>
+      </section>
+    </main>
+    <script src="assets/app.js"></script>
+  </body>
+</html>
