@@ -1,0 +1,72 @@
+[
+  {
+    "name": "Rosée de la Reine",
+    "residue": 20,
+    "nitrates": 1,
+    "sodium": 3,
+    "source": "ANSES - Fichier des eaux minérales naturelles (2022)"
+  },
+  {
+    "name": "Mont Roucous",
+    "residue": 22,
+    "nitrates": 2,
+    "sodium": 3,
+    "source": "ANSES - Fichier des eaux minérales naturelles (2022)"
+  },
+  {
+    "name": "Montcalm",
+    "residue": 9,
+    "nitrates": 1,
+    "sodium": 2,
+    "source": "ANSES - Fichier des eaux minérales naturelles (2022)"
+  },
+  {
+    "name": "Wattwiller",
+    "residue": 130,
+    "nitrates": 2,
+    "sodium": 4,
+    "source": "ANSES - Fichier des eaux minérales naturelles (2022)"
+  },
+  {
+    "name": "Volvic",
+    "residue": 130,
+    "nitrates": 6.3,
+    "sodium": 11.6,
+    "source": "ANSES - Fichier des eaux minérales naturelles (2022)"
+  },
+  {
+    "name": "Evian",
+    "residue": 345,
+    "nitrates": 3,
+    "sodium": 5,
+    "source": "ANSES - Fichier des eaux minérales naturelles (2022)"
+  },
+  {
+    "name": "Valvert",
+    "residue": 110,
+    "nitrates": 2,
+    "sodium": 10,
+    "source": "ANSES - Fichier des eaux minérales naturelles (2022)"
+  },
+  {
+    "name": "Vittel",
+    "residue": 305,
+    "nitrates": 4,
+    "sodium": 5,
+    "source": "ANSES - Fichier des eaux minérales naturelles (2022)"
+  },
+  {
+    "name": "Thonon",
+    "residue": 445,
+    "nitrates": 3,
+    "sodium": 5,
+    "source": "ANSES - Fichier des eaux minérales naturelles (2022)"
+  },
+  {
+    "name": "Contrex",
+    "residue": 2078,
+    "nitrates": 2.7,
+    "sodium": 9.4,
+    "source": "ANSES - Fichier des eaux minérales naturelles (2022)"
+  }
+]
