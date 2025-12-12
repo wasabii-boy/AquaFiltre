@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AquaFiltre – Sélection scientifique d'eaux en bouteille</title>
+    <link rel="stylesheet" href="assets/style.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <div class="page">
+      <header class="masthead">
+        <div>
+          <p class="kicker">Repères et données publiques ANSES</p>
+          <h1>AquaFiltre</h1>
+          <p class="lede">
+            Tableau de bord pour pré-sélectionner les eaux en bouteille vendues en France en fonction
+            de leur minéralité (résidu sec, nitrates, sodium). Les profils prêts à l'emploi appliquent
+            les repères ANSES pour les nourrissons et publics sensibles.
+          </p>
+          <div class="tags">
+            <span class="tag">Données ANSES 2022</span>
+            <span class="tag ghost">Statique • GitHub Pages</span>
+            <span class="tag ghost">Pondération : 45 / 35 / 20</span>
+          </div>
+        </div>
+        <div class="hero-chip">
+          <p class="kicker">Calibration scientifique</p>
+          <div>
+            <strong>Résidu &lt; 50 mg/L</strong>
+            <p>Très faible minéralisation recherchée pour les biberons.</p>
+          </div>
+          <div>
+            <strong>Nitrates &lt; 10 mg/L</strong>
+            <p>En dessous de la cible ANSES pour l'alimentation infantile.</p>
+          </div>
+          <div>
+            <strong>Sodium &lt; 15 mg/L</strong>
+            <p>Repère ANSES pour limiter la charge rénale du nourrisson.</p>
+          </div>
+        </div>
+      </header>
+
+      <section class="grid hero-grid">
+        <article class="card">
+          <div class="card-head">
+            <div>
+              <p class="kicker">Profils prêts</p>
+              <h2>Appliquer un contexte sanitaire</h2>
+            </div>
+            <p class="helper">Sélectionnez un profil pour charger instantanément les seuils.</p>
+          </div>
+          <div id="profile-chips" class="chips"></div>
+          <p class="helper">
+            Les valeurs sont issues des repères ANSES :
+            <span class="pill">Résidu</span>
+            <span class="pill">Nitrates</span>
+            <span class="pill">Sodium</span>. Vous pouvez ensuite ajuster finement les curseurs.
+          </p>
+        </article>
+
+        <article class="card">
+          <div class="card-head">
+            <div>
+              <p class="kicker">Réglages fins</p>
+              <h2>Seuils et pondérations</h2>
+            </div>
+            <span class="pill">45% résidu • 35% nitrates • 20% sodium</span>
+          </div>
+          <div class="form-grid">
+            <label class="field">
+              <div class="field-head">
+                <span>Résidu sec max (mg/L)</span>
+                <strong id="residue-label"></strong>
+              </div>
+              <input id="residue" type="range" min="5" max="800" step="5" />
+              <div class="track-hint">
+                <span class="muted">Très faible &lt; 50</span>
+                <span class="muted">Riche &gt; 500</span>
+              </div>
+            </label>
+            <label class="field">
+              <div class="field-head">
+                <span>Nitrates max (mg/L)</span>
+                <strong id="nitrates-label"></strong>
+              </div>
+              <input id="nitrates" type="range" min="1" max="50" step="1" />
+              <div class="track-hint">
+                <span class="muted">Cible 10</span>
+                <span class="muted">Limite 50</span>
+              </div>
+            </label>
+            <label class="field">
+              <div class="field-head">
+                <span>Sodium max (mg/L)</span>
+                <strong id="sodium-label"></strong>
+              </div>
+              <input id="sodium" type="range" min="1" max="200" step="1" />
+              <div class="track-hint">
+                <span class="muted">Idéal &lt; 15</span>
+                <span class="muted">Limite 200</span>
+              </div>
+            </label>
+          </div>
+          <p class="helper">
+            Le score de pureté applique la pondération scientifique ci-dessus. Dès qu'un paramètre
+            dépasse son seuil, sa contribution chute à 0 afin de prioriser les eaux réellement conformes.
+          </p>
+        </article>
+      </section>
+
+      <section class="insights">
+        <article class="insight">
+          <p class="kicker">Eaux listées</p>
+          <div class="insight-value" id="stat-total">–</div>
+          <p class="helper">Nombre total de références dans le jeu de données ANSES.</p>
+        </article>
+        <article class="insight">
+          <p class="kicker">Compatibles avec tous les seuils</p>
+          <div class="insight-value" id="stat-matching">–</div>
+          <p class="helper">Eaux respectant simultanément résidu, nitrates et sodium.</p>
+        </article>
+        <article class="insight">
+          <p class="kicker">Score moyen du top 3</p>
+          <div class="insight-value" id="stat-top3">–</div>
+          <p class="helper">Moyenne pondérée des trois meilleures eaux pour les seuils choisis.</p>
+        </article>
+        <article class="insight">
+          <p class="kicker">Sous le seuil de résidu</p>
+          <div class="insight-value" id="stat-residue-ok">–</div>
+          <p class="helper">Part des eaux avec minéralité inférieure au seuil fixé.</p>
+        </article>
+        <article class="insight">
+          <p class="kicker">Sous le seuil de nitrates</p>
+          <div class="insight-value" id="stat-nitrates-ok">–</div>
+          <p class="helper">Conformité au repère nitrates appliqué.</p>
+        </article>
+        <article class="insight">
+          <p class="kicker">Sous le seuil de sodium</p>
+          <div class="insight-value" id="stat-sodium-ok">–</div>
+          <p class="helper">Eaux avec charge sodée inférieure au seuil.</p>
+        </article>
+      </section>
+
+      <section class="grid data-grid">
+        <article class="card featured">
+          <div class="card-head">
+            <div>
+              <p class="kicker">Suggestion prioritaire</p>
+              <h2>Meilleure eau pour vos critères</h2>
+            </div>
+            <span class="pill" id="featured-score">–</span>
+          </div>
+          <div class="featured-body" id="featured-body">
+            <p class="helper">Chargez un profil ou ajustez un seuil pour voir la recommandation.</p>
+          </div>
+        </article>
+
+        <article class="card ranking">
+          <div class="card-head">
+            <div>
+              <p class="kicker">Top 3</p>
+              <h2>Classement rapide</h2>
+            </div>
+            <span class="pill ghost">Score normalisé /100</span>
+          </div>
+          <div id="top-picks" class="top-picks"></div>
+        </article>
+      </section>
+
+      <section class="card table-card">
+        <div class="card-head">
+          <div>
+            <p class="kicker">Tableau complet</p>
+            <h2>Comparaison détaillée</h2>
+          </div>
+          <div class="legend">
+            <span class="dot ok"></span> sous le seuil
+            <span class="dot warn"></span> au-dessus du seuil
+          </div>
+        </div>
+        <div class="table-wrapper">
+          <table class="table" aria-label="Classement complet des eaux en bouteille">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Marque</th>
+                <th>Résidu sec</th>
+                <th>Nitrates</th>
+                <th>Sodium</th>
+                <th>Score</th>
+                <th>Source</th>
+              </tr>
+            </thead>
+            <tbody id="water-table-body"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="card sources">
+        <div class="card-head">
+          <div>
+            <p class="kicker">Repères ANSES & méthodologie</p>
+            <h2>Interprétation des résultats</h2>
+          </div>
+          <a class="text-link" href="https://www.anses.fr" target="_blank" rel="noreferrer">Site ANSES</a>
+        </div>
+        <ul>
+          <li>
+            <strong>Nitrates :</strong> limite de qualité pour l'eau potable 50 mg/L ; l'ANSES recommande
+            &lt; 10 mg/L pour la préparation des biberons (avis 2013 et note d'appui 2021).
+          </li>
+          <li>
+            <strong>Sodium :</strong> repère &lt; 15 mg/L pour les nourrissons (avis 2008 sur l'alimentation
+            infantile) afin de limiter la charge rénale.
+          </li>
+          <li>
+            <strong>Résidu sec à 180 °C :</strong> les eaux très faiblement minéralisées sont sous 50 mg/L.
+            Les régimes pauvres en minéraux privilégient ces valeurs.
+          </li>
+          <li>
+            <strong>Données :</strong> composition issue du fichier public des eaux minérales naturelles déclaré
+            à l'ANSES (mise à jour 2022). Vérifiez toujours l'étiquette la plus récente.
+          </li>
+        </ul>
+        <div class="notice">
+          AquaFiltre n'est pas un outil médical. Pour les nourrissons, se référer également aux conseils du
+          pédiatre et à la réglementation locale. Les valeurs sont indicatives et doivent être confirmées sur
+          les bouteilles achetées.
+        </div>
+      </section>
+    </div>
+    <script src="assets/app.js"></script>
+  </body>
+</html>
